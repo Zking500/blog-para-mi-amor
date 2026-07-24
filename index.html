@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>💜 Blog para mi amor - zking500 🦇</title>
+    <meta name="description" content="Blog dedicado a mi persona favorita, con estética Y2K y toques de terror.">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           VARIABLES GLOBALES (personaliza aquí)
+           ========================================= */
+        :root {
+            --color-lila: #a855f7;
+            --color-lila-oscuro: #581c87;
+            --color-lila-claro: #d8b4fe;
+            --color-blanco: #f0e6ff;
+            --color-fondo-claro: #2a0a3a;
+            --fuente-titulo: 'Creepster', cursive;
+            --fuente-texto: 'Nunito', sans-serif;
+        }
+
+        /* =========================================
+           FONDO CON PARTÍCULAS (estrellas flotantes)
+           ========================================= */
+        body {
+            position: relative;
+            background-color: #1a002a;
+            /* Fondo con imagen Miku, ahora más brillante */
+            background-image: 
+                linear-gradient(rgba(80, 20, 120, 0.5), rgba(20, 0, 40, 0.6)),
+                url('2e325d8b62ff59bc7dfc94112a56b40c.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--color-blanco);
+            font-family: var(--fuente-texto);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            min-height: 100vh;
+            /* Para el notch de iPhone X */
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        /* Capa de partículas (estrellas) - CSS puro */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* para que no interfieran con clics */
+            z-index: 0;
+        }
+
+        /* Estrellas grandes que se mueven lentamente */
+        body::before {
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40% 70%, #d8b4fe, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 70% 20%, #a855f7, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90% 80%, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 10% 90%, #c084fc, rgba(0,0,0,0));
+            background-size: 200% 200%;
+            animation: moverEstrellas 20s linear infinite;
+            opacity: 0.8;
+        }
+
+        /* Estrellas pequeñas parpadeantes (más numerosas) */
+        body::after {
+            background-image: 
+                radial-gradient(1px 1px at 15% 45%, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 55% 25%, #d8b4fe, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 80% 55%, #a855f7, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 30% 80%, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 65% 95%, #c084fc, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 5% 15%, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 45% 50%, #d8b4fe, rgba(0,0,0,0));
+            background-size: 300% 300%;
+            animation: moverEstrellas 30s linear infinite reverse;
+            opacity: 0.6;
+        }
+
+        @keyframes moverEstrellas {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* =========================================
+           PANTALLA INTRO
+           ========================================= */
+        #pantalla-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #3b0764 0%, #140024 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 1s ease;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .intro-oculta {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .frase-intro {
+            font-family: var(--fuente-texto);
+            color: var(--color-lila-claro);
+            font-size: clamp(28px, 6vw, 48px);
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px var(--color-lila), 0 0 40px var(--color-lila-oscuro);
+            font-weight: 700;
+        }
+
+        .btn-maquina {
+            background: linear-gradient(45deg, var(--color-lila-oscuro), var(--color-lila));
+            color: #fff;
+            border: 2px solid var(--color-lila-claro);
+            padding: 15px 40px;
+            font-size: clamp(20px, 3vw, 28px);
+            border-radius: 50px;
+            font-family: var(--fuente-titulo);
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.6), inset 0 0 10px rgba(255,255,255,0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 10000;
+        }
+
+        .btn-maquina:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--color-lila);
+        }
+
+        /* =========================================
+           MARQUESINA (reemplazo de <marquee>)
+           ========================================= */
+        .marquesina {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--color-lila-claro);
+            font-size: 18px;
+            padding: 10px 0;
+            border-bottom: 2px solid var(--color-lila);
+            text-shadow: 0 0 5px var(--color-lila-claro);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow: hidden;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+        }
+
+        .marquesina-contenido {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scrollMarquesina 15s linear infinite;
+        }
+
+        @keyframes scrollMarquesina {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200%); }
+        }
+
+        /* =========================================
+           CONTENEDOR PRINCIPAL
+           ========================================= */
+        .blog-container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 20px auto;
+            gap: 25px;
+            padding: 0 15px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.2s;
+            position: relative;
+            z-index: 1; /* por encima de las partículas */
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* =========================================
+           SIDEBAR
+           ========================================= */
+        .sidebar {
+            flex: 1;
+            min-width: 220px;
+            background: rgba(20, 5, 30, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+            box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.2);
+            order: 2; /* Por defecto en escritorio va a la derecha */
+        }
+
+        .perfil-img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px dashed var(--color-lila-claro);
+            margin-bottom: 15px;
+            loading: lazy;
+        }
+
+        .sidebar h3 {
+            font-family: var(--fuente-titulo);
+            color: var(--color-lila-claro);
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .sidebar p {
+            line-height: 1.6;
+        }
+
+        .sidebar strong {
+            color: var(--color-lila);
+        }
+
+        /* GIFs adicionales en la sidebar */
+        .gifs-extra {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .gifs-extra img {
+            width: 45%;
+            border-radius: 8px;
+            border: 1px solid var(--color-lila);
+            loading: lazy;
+        }
+
+        .reproductor {
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            border: 1px solid var(--color-lila);
+            margin-top: 20px;
+        }
+
+        .reproductor p {
+            margin: 0 0 10px 0;
+            color: var(--color-lila-claro);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        audio {
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        /* =========================================
+           ENTRADAS DEL BLOG
+           ========================================= */
+        .entradas {
+            flex: 2;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            order: 1; /* En escritorio, los posts van primero */
+        }
+
+        .post {
+            background: rgba(40, 10, 60, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--color-lila-claro);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(168, 85, 247, 0.2);
+            transition: border-color 0.3s;
+        }
+
+        .post:hover {
+            border-color: #ff00ff;
+        }
+
+        .post h2 {
+            color: #ffffff;
+            text-shadow: 2px 2px 0 var(--color-lila);
+            margin-top: 0;
+            font-family: var(--fuente-titulo);
+            letter-spacing: 1px;
+        }
+
+        .post-fecha {
+            font-size: 12px;
+            color: var(--color-lila);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px dashed var(--color-lila);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .post p {
+            line-height: 1.7;
+        }
+
+        .post-img {
+            width: 100%;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid var(--color-lila);
+            loading: lazy;
+        }
+
+        .btn-regalo {
+            background: linear-gradient(to bottom, var(--color-lila), var(--color-lila-oscuro));
+            color: white;
+            border: 2px solid var(--color-lila-claro);
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #3b0764;
+            transition: all 0.1s ease;
+            width: 100%;
+            margin-top: 15px;
+            font-family: var(--fuente-texto);
+        }
+
+        .btn-regalo:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0 #3b0764;
+        }
+
+        .btn-regalo:hover {
+            background: linear-gradient(to bottom, #b379ff, var(--color-lila));
+            box-shadow: 0 6px 0 #3b0764, 0 0 20px var(--color-lila);
+        }
+
+        #codigo-oculto {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.85);
+            border: 2px dashed var(--color-lila);
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(16px, 3vw, 24px);
+            text-align: center;
+            color: var(--color-lila-claro);
+            word-break: break-all;
+            text-shadow: 0 0 8px var(--color-lila);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+        }
+
+        /* =========================================
+           RESPONSIVE: MÓVIL (iPhone X en adelante)
+           ========================================= */
+        @media (max-width: 768px) {
+            .blog-container {
+                flex-direction: column; /* posts arriba, sidebar abajo */
+                padding: 0 10px;
+                gap: 20px;
+            }
+
+            .sidebar {
+                order: 2; /* sidebar al final */
+                min-width: unset;
+                padding: 15px;
+            }
+
+            .entradas {
+                order: 1; /* posts primero */
+                min-width: unset;
+            }
+
+            .marquesina {
+                font-size: 14px;
+                padding: 6px 0;
+            }
+            .marquesina-contenido {
+                animation-duration: 25s; /* más lento para leer */
+            }
+
+            .post {
+                padding: 18px;
+            }
+
+            .post h2 {
+                font-size: 1.3rem;
+            }
+
+            .post-img {
+                margin: 10px 0;
+            }
+
+            .btn-regalo {
+                font-size: 16px;
+                padding: 10px 15px;
+            }
+
+            .footer-blog {
+                font-size: 12px;
+                padding: 15px 10px;
+            }
+
+            audio {
+                height: 40px;
+            }
+
+            .gifs-extra img {
+                width: 48%;
+            }
+        }
+
+        /* Para pantallas muy pequeñas (ej. iPhone SE) */
+        @media (max-width: 400px) {
+            .post {
+                padding: 12px;
+            }
+            .sidebar {
+                padding: 10px;
+            }
+            .frase-intro {
+                font-size: 24px;
+            }
+            .btn-maquina {
+                font-size: 18px;
+                padding: 12px 30px;
+            }
+        }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        .footer-blog {
+            text-align: center;
+            padding: 25px 10px 15px;
+            color: var(--color-lila-claro);
+            font-size: 14px;
+            opacity: 0.8;
+            border-top: 1px solid rgba(168, 85, 247, 0.2);
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-blog span {
+            font-family: var(--fuente-titulo);
+            letter-spacing: 2px;
+            color: var(--color-lila);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =========================================
+         INTRO
+         ========================================= -->
+    <div id="pantalla-intro" role="dialog" aria-label="Bienvenida">
+        <h1 class="frase-intro">Para el amor de mi corazón 💜</h1>
+        <button class="btn-maquina" onclick="iniciarViaje()" aria-label="Iniciar viaje en el tiempo">
+            Máquina del tiempo ⏳
+        </button>
+    </div>
+
+    <!-- =========================================
+         MARQUESINA
+         ========================================= -->
+    <header class="marquesina" role="banner">
+        <div class="marquesina-contenido">
+            🎵 NOW PLAYING: CAFÉ TACVBA - ERES 🎵 🦇 BIENVENIDA A MI ESPACIO 🦇 💜 SIEMPRE SERÁS MI PERSONA FAVORITA 💜
+        </div>
+    </header>
+
+    <!-- =========================================
+         CONTENIDO PRINCIPAL
+         ========================================= -->
+    <main class="blog-container">
+        
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar" role="complementary">
+            <img src="https://tenor.com/es-419/view/jeff-the-killer-caprihina-gif-2743667453466640297.gif" 
+                 alt="Jeff the Killer GIF terrorífico" 
+                 class="perfil-img" 
+                 loading="lazy">
+            <h3>Para el amor de mi corazón 💜</h3>
+            <p>Escrito por: <strong>zking500</strong></p>
+            <p>Construí este espacio en la red solo para mi persona favorita. 🔮✨</p>
+
+            <!-- REPRODUCTOR DE AUDIO LOCAL -->
+            <div class="reproductor">
+                <p>🎵 Dale Play</p>
+                <audio id="musica-fondo" controls preload="auto" playsinline style="width:100%;">
+                    <source src="eres.m4a" type="audio/mp4">
+                    <source src="eres.m4a" type="audio/aac">
+                    Tu navegador no soporta audio HTML5.
+                </audio>
+            </div>
+        </aside>
+
+        <!-- ENTRADAS DEL BLOG -->
+        <section class="entradas" role="main">
+            <!-- Post 1: Original -->
+            <article class="post">
+                <div class="post-fecha">Publicado el 24 de julio de 2026</div>
+                <h2>Un pequeño blog de cumpleaños 💜</h2>
+                <p>Mi amor, preparé esta página especialmente para ti. Quería que tuvieras un lugar con toda esta estética espeluznante y linda que te encanta.</p>
+                <p>Eres mi compañera de aventuras ideal y aunque a veces sea difícil, cada momento contigo es el mejor. ¡Pásatela increíble hoy!</p>
+            </article>
+
+            <!-- Post 2: Regalo -->
+            <article class="post">
+                <div class="post-fecha">Publicado el 24 de julio de 2026</div>
+                <h2>Tu regalo de cumpleaños 🎁</h2>
+                <p>Para tu regalo pence que el juego de bayonetta pero alguien se me adelanto asi que te tengo una sorpresa para tu cuenta de roblox</p>
+                <button class="btn-regalo" id="boton-regalo" onclick="revelarRegalo()" aria-label="Desbloquear clave de Robux">
+                    Desbloquear la Key 🗝️
+                </button>
+                <div id="codigo-oculto">
+                    RBSTJ75JDA94HJJT
+                </div>
+            </article>
+
+            <!-- Post 3: NUEVO - Recuerdos de cumpleaños -->
+            <article class="post">
+                <div class="post-fecha">Publicado el 24 de julio de 2026</div>
+                <h2>🎉 post de deseos</h2>
+                <img src="https://tenor.com/es-419/view/bayonetta-bayonetta-2-heart-kiss-jumping-gif-418262071258592287.gif" 
+                     alt="Feliz cumpleaños con brillos" 
+                     class="post-img" 
+                     loading="lazy">
+                <p>Este es un pequeño detalle para que tengas una sonrisa hoy y siempre. Eres increíble y mereces todo lo mejor. ¡Brilla como siempre lo haces!</p>
+                <p>Espero que este día esté lleno de sorpresas y mucho amor. Te quiero más de lo que las palabras pueden expresar.</p>
+            </article>
+
+            <!-- Post 4: NUEVO - Mensaje especial -->
+            <article class="post">
+                <div class="post-fecha">Publicado el 24 de julio de 2026</div>
+                <h2>💜 Mensaje especial</h2>
+                <img src="https://tenor.com/es-419/view/alice-aliceliddell-alicemadness-alicesteampunk-gif-23436668.gif" 
+                     alt="Corazones flotando" 
+                     class="post-img" 
+                     loading="lazy">
+                <p>En cada latido, en cada pensamiento, estás tú. Esta página es solo un reflejo de lo mucho que significas para mí. </p>
+                <p>Gracias por ser mi compañera. Que este año venga cargado de sueños cumplidos y nuevos proyectos juntos.</p>
+                <p>Te amo con toda mi alma. Feliz cumpleaños, mi vida.</p>
+            </article>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-blog">
+        <p>Hecho con 💜 para mi persona favorita · <span>zking500</span> · 2026</p>
+    </footer>
+
+    <!-- =========================================
+         SCRIPTS
+         ========================================= -->
+    <script>
+        function iniciarViaje() {
+            document.getElementById('pantalla-intro').classList.add('intro-oculta');
+            const reproductor = document.getElementById('musica-fondo');
+            if (reproductor) {
+                reproductor.play().catch(function(error) {
+                    console.warn("Autoplay bloqueado:", error);
+                });
+            }
+        }
+
+        function revelarRegalo() {
+            const btn = document.getElementById('boton-regalo');
+            const contenedor = document.getElementById('codigo-oculto');
+            btn.style.display = 'none';
+            contenedor.style.display = 'block';
+
+            const codigoOriginal = contenedor.textContent.trim();
+            contenedor.textContent = '';
+            let i = 0;
+            const velocidad = 80;
+            const intervalo = setInterval(() => {
+                if (i < codigoOriginal.length) {
+                    contenedor.textContent += codigoOriginal.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(intervalo);
+                    contenedor.style.boxShadow = '0 0 60px rgba(168, 85, 247, 0.9)';
+                }
+            }, velocidad);
+        }
+    </script>
+
+</body>
+</html>
